@@ -10,14 +10,14 @@
 %global _lto_cflags %{nil}
 
 # Option to enable compiling with clang instead of gcc.
-%bcond_with toolchain_clang
+%bcond_without toolchain_clang
 
 %if %{with toolchain_clang}
 %global toolchain clang
 %endif
 
 # Compile the kernel with LTO (only supported when building with clang).
-%bcond_with clang_lto
+%bcond_without clang_lto
 
 %if %{with clang_lto} && %{without toolchain_clang}
 {error:clang_lto requires --with toolchain_clang}
