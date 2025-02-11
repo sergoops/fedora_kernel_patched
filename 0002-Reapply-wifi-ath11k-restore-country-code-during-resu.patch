@@ -1,0 +1,35 @@
+From fb379d291092a9942bd0083859d0e6a07792c0c0 Mon Sep 17 00:00:00 2001
+From: sergoops <sergoopsmoskal@gmail.com>
+Date: Tue, 11 Feb 2025 22:49:58 +0300
+Subject: [PATCH 2/2] Reapply "wifi: ath11k: restore country code during
+ resume"
+
+This reverts commit d3e154d7776ba57ab679fb816fb87b627fba21c9.
+---
+ drivers/net/wireless/ath/ath11k/core.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/net/wireless/ath/ath11k/core.c b/drivers/net/wireless/ath/ath11k/core.c
+index 325b930aaf06..03187df26000 100644
+--- a/drivers/net/wireless/ath/ath11k/core.c
++++ b/drivers/net/wireless/ath/ath11k/core.c
+@@ -1009,6 +1009,16 @@ int ath11k_core_resume(struct ath11k_base *ab)
+ 		return -ETIMEDOUT;
+ 	}
+ 
++	if (ab->hw_params.current_cc_support &&
++	    ar->alpha2[0] != 0 && ar->alpha2[1] != 0) {
++		ret = ath11k_reg_set_cc(ar);
++		if (ret) {
++			ath11k_warn(ab, "failed to set country code during resume: %d\n",
++				    ret);
++			return ret;
++		}
++	}
++
+ 	ret = ath11k_dp_rx_pktlog_start(ab);
+ 	if (ret)
+ 		ath11k_warn(ab, "failed to start rx pktlog during resume: %d\n",
+-- 
+2.48.1
+

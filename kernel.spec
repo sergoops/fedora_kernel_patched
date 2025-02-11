@@ -162,7 +162,7 @@ Summary: The Linux kernel
 %define specrpmversion 6.12.13
 %define specversion 6.12.13
 %define patchversion 6.12
-%define pkgrelease 200
+%define pkgrelease 800
 %define kversion 6
 %define tarfile_release 6.12.13
 # This is needed to do merge window version magic
@@ -1067,6 +1067,9 @@ Source4002: gating.yaml
 
 Patch1: patch-%{patchversion}-redhat.patch
 %endif
+
+Patch2: 0001-Reapply-wifi-ath11k-support-hibernation.patch
+Patch3: 0002-Reapply-wifi-ath11k-restore-country-code-during-resu.patch
 
 # empty final patch to facilitate testing of kernel patches
 Patch999999: linux-kernel-test.patch
